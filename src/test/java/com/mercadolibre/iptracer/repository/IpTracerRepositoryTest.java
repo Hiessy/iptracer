@@ -24,7 +24,7 @@ public class IpTracerRepositoryTest {
     private String ipArg = "13.13.13.13";
     private String countryArg = "Argentina";
     private Integer distanceArg = 0;
-    private String id = ipArg+";"+countryArg+";"+distanceArg;
+    private String id = ipArg+":"+countryArg+":"+distanceArg;
 
     private String ipChina = "123.123.123.123";
     private String countryChina = "China";
