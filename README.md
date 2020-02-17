@@ -28,7 +28,7 @@ c:\Users\hiessy\IdeaProjects\iptracer>docker run -p 8080:8080 iptracer_img
 ## API Reference
 The following show how to consume the exposed API.
 
-| URL        | Method  | URL Params      | Data Params     | Success Response | Error | Response
+| URL        | Method  | URL Params      | Data Params     | Success Response | Error | Response |
 |:-------------:|:-----:|:-------------:|:-----|:---------:|:-------------:|
 | /v1/api/information?ip={queri_ip}  | <font color="#008800">GET</font> | | | **200** | **400** **500**|
 | /v1/api/statistics | <font color="#DD0000">GET</font> | | | **200** | **400** **500**|
