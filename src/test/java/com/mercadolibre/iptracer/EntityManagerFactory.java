@@ -3,6 +3,7 @@ package com.mercadolibre.iptracer;
 import com.mercadolibre.iptracer.client.model.*;
 import com.mercadolibre.iptracer.model.IpTracerResponse;
 import com.mercadolibre.iptracer.model.RequestInfo;
+import com.mercadolibre.iptracer.model.StatisticsInfo;
 import com.mercadolibre.iptracer.model.StatisticsResponse;
 
 import java.util.ArrayList;
@@ -41,8 +42,8 @@ public class EntityManagerFactory {
             add(new RequestInfo("10.10.3.10", 7 , "Brasil", 1967));
             add(new RequestInfo("130.10.2.10", 10 , "France", 11052));
             add(new RequestInfo("3.2.10.10", 2 , "South Korea", 2345));
-            add(new RequestInfo("10.10.5.10", 15 , "China", 19265));
-            add(new RequestInfo("10.3.10.10", 4 , "China", 19265));
+            add(new RequestInfo("10.10.5.10", 15 , "China", 19235));
+            add(new RequestInfo("10.3.10.10", 4 , "China", 19245));
             add(new RequestInfo("43.10.7.10", 14 , "Argentina", 123));
             add(new RequestInfo("10.7.10.10", 10 , "South Korea", 2345));
             add(new RequestInfo("10.10.8.10", 15 , "China", 19265));
@@ -68,9 +69,18 @@ public class EntityManagerFactory {
         return new IpTracerResponse("AR", "", languages, 69d ,timezone, 0);
     }
 
-    public static List<StatisticsResponse> getStatisticsResponse(){
-        return new ArrayList<StatisticsResponse>(){{ add(new StatisticsResponse("Brasil", 2862, 10));
-            add( new StatisticsResponse("España", 10040, 5));}};
+    public static StatisticsResponse getStatisticsResponse(){
+        List<StatisticsInfo> list = new ArrayList<StatisticsInfo>(){{ add(new StatisticsInfo("Brasil", 2862, 10));
+            add( new StatisticsInfo("España", 10040, 5));}};
+        return new StatisticsResponse(list, getAverage(list));
 
+    }
+
+    private static Integer getAverage(List<StatisticsInfo> response) {
+        try {
+            return (response.get(0).getDistance() * response.get(0).getInvocations() + response.get(1).getDistance() * response.get(1).getInvocations()) / (response.get(0).getInvocations() + response.get(1).getInvocations());
+        } catch (ArithmeticException e){
+            return 0;
+        }
     }
 }

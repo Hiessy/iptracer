@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -85,19 +84,24 @@ public class IpTracerServiceTest {
     public void shouldReturnAStatisticResponse() {
         Iterable<RequestInfo> response = EntityManagerFactory.getFindAllResponse();
         given(repository.findAll()).willReturn(response);
-        List<StatisticsResponse> statistics = ipTracerService.getStatistics();
-        assertThat(statistics.isEmpty()).isEqualTo(false);
-        assertThat(statistics.size()).isEqualTo(2);
-        assertThat(statistics.get(0).getDistance()).isEqualTo(19265);
+        StatisticsResponse statistics = ipTracerService.getStatistics();
+        assertThat(statistics.getStatistics().isEmpty()).isEqualTo(false);
+        assertThat(statistics.getStatistics().size()).isEqualTo(2);
+        assertThat(statistics.getStatistics().get(0).getDistance()).isEqualTo(19265);
+        assertThat(statistics.getStatistics().get(0).getCountryName()).isEqualTo("China");
+        assertThat(statistics.getStatistics().get(1).getDistance()).isEqualTo(123);
+        assertThat(statistics.getStatistics().get(1).getCountryName()).isEqualTo("Argentina");
     }
 
     @Test
     public void shouldReturnAEmptyStatisticResponse() {
         Iterable<RequestInfo> response = new ArrayList<>();
         given(repository.findAll()).willReturn(response);
-        List<StatisticsResponse> statistics = ipTracerService.getStatistics();
-        assertThat(statistics.isEmpty()).isEqualTo(false);
-        assertThat(statistics.size()).isEqualTo(2);
-        assertThat(statistics.get(0).getDistance()).isEqualTo(0);
+        StatisticsResponse statistics = ipTracerService.getStatistics();
+        assertThat(statistics.getStatistics().size()).isEqualTo(2);
+        assertThat(statistics.getStatistics().get(0).getDistance()).isEqualTo(0);
+        assertThat(statistics.getStatistics().get(0).getCountryName()).isEqualTo("");
+        assertThat(statistics.getStatistics().get(1).getDistance()).isEqualTo(0);
+        assertThat(statistics.getStatistics().get(1).getCountryName()).isEqualTo("");
     }
 }

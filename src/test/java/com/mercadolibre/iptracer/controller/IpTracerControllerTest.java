@@ -1,9 +1,6 @@
 package com.mercadolibre.iptracer.controller;
 
 import com.mercadolibre.iptracer.EntityManagerFactory;
-import com.mercadolibre.iptracer.client.CountryCodeInfoClient;
-import com.mercadolibre.iptracer.client.CountryIpInfoClient;
-import com.mercadolibre.iptracer.client.CurrencyInfoClient;
 import com.mercadolibre.iptracer.exceptions.RestClientException;
 import com.mercadolibre.iptracer.service.IpTracerService;
 import org.junit.jupiter.api.Test;
@@ -58,9 +55,13 @@ public class IpTracerControllerTest {
         when(ipTracerService.getStatistics()).thenReturn(EntityManagerFactory.getStatisticsResponse());
         mvc.perform(MockMvcRequestBuilders.get("/v1/api/statistics").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].countryName").value("Brasil"))
-                .andExpect(jsonPath("$.[0].distance").value(2862))
-                .andExpect(jsonPath("$.[1].invocations").value(5));;
+                .andExpect(jsonPath("$.statistics.[0].countryName").value("Brasil"))
+                .andExpect(jsonPath("$.statistics.[0].distance").value(2862))
+                .andExpect(jsonPath("$.statistics.[0].invocations").value(10))
+                .andExpect(jsonPath("$.statistics.[1].countryName").value("España"))
+                .andExpect(jsonPath("$.statistics.[1].distance").value(10040))
+                .andExpect(jsonPath("$.statistics.[1].invocations").value(5))
+                .andExpect(jsonPath("$.average").value(5254));
     }
 
     @Test

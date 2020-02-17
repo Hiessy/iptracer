@@ -9,6 +9,7 @@ import com.mercadolibre.iptracer.client.model.Language;
 import com.mercadolibre.iptracer.exceptions.RestClientException;
 import com.mercadolibre.iptracer.model.IpTracerResponse;
 import com.mercadolibre.iptracer.model.RequestInfo;
+import com.mercadolibre.iptracer.model.StatisticsInfo;
 import com.mercadolibre.iptracer.model.StatisticsResponse;
 import com.mercadolibre.iptracer.repository.IpTracerRepository;
 import com.mercadolibre.iptracer.service.IpTracerService;
@@ -62,15 +63,15 @@ public class IpTracerServiceImpl implements IpTracerService {
      *
      * @return List<StatisticsResponse> containing the min and max values
      */
-    public List<StatisticsResponse> getStatistics() {
+    public StatisticsResponse getStatistics() {
         Iterable<RequestInfo> requestInfo = repository.findAll();
-        StatisticsResponse maxDistance = StreamSupport.stream(requestInfo.spliterator(), false).map(c -> new StatisticsResponse(c.getCountry(),c.getDistance(),c.getCount())).max(Comparator.comparingInt(StatisticsResponse::getDistance)).orElse(new StatisticsResponse("",0,0));
-        StatisticsResponse minDistance = StreamSupport.stream(requestInfo.spliterator(), false).map(c -> new StatisticsResponse(c.getCountry(),c.getDistance(),c.getCount())).min(Comparator.comparingInt(StatisticsResponse::getDistance)).orElse(new StatisticsResponse("",0,0));
-        List<StatisticsResponse> response = new ArrayList<StatisticsResponse>(){{
+        StatisticsInfo maxDistance = StreamSupport.stream(requestInfo.spliterator(), false).map(c -> new StatisticsInfo(c.getCountry(),c.getDistance(),c.getCount())).max(Comparator.comparingInt(StatisticsInfo::getDistance)).orElse(new StatisticsInfo("",0,0));
+        StatisticsInfo minDistance = StreamSupport.stream(requestInfo.spliterator(), false).map(c -> new StatisticsInfo(c.getCountry(),c.getDistance(),c.getCount())).min(Comparator.comparingInt(StatisticsInfo::getDistance)).orElse(new StatisticsInfo("",0,0));
+        List<StatisticsInfo> response = new ArrayList<StatisticsInfo>(){{
             add(maxDistance);
             add(minDistance);
         }};
-        return response;
+        return new StatisticsResponse(response, getAverage(response));
     }
 
     /**
@@ -130,6 +131,13 @@ public class IpTracerServiceImpl implements IpTracerService {
             log.error("Unable to determine rates exception is: " + e.getMessage(), e);
             return 0.0;
         }
+    }
 
+    private Integer getAverage(List<StatisticsInfo> response) {
+       try {
+           return (response.get(0).getDistance() * response.get(0).getInvocations() + response.get(1).getDistance() * response.get(1).getInvocations()) / (response.get(0).getInvocations() + response.get(1).getInvocations());
+       } catch (ArithmeticException e){
+           return 0;
+       }
     }
 }

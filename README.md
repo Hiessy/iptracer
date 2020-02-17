@@ -13,14 +13,25 @@ In order to build the project, the following programas will have to be installed
 
 [Java jdk 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)<br>
 [Maven 3.x](https://maven.apache.org/download.cgi)<br>
+[Docker 2.x](https://www.docker.com/)<br>
+
+## Running
+With docker installed, build the image. Make sure have the prompt at the project base.
+```
+c:\Users\hiessy\IdeaProjects\iptracer>docker build -f Dockerfile -t iptracer_img .
+```
+then run it:
+```
+c:\Users\hiessy\IdeaProjects\iptracer>docker run -p 8080:8080 iptracer_img
+```
 
 ## API Reference
 The following show how to consume the exposed API.
 
-| URL        | Method  | URL Params      | Data Params     | Success Response | Error Response
+| URL        | Method  | URL Params      | Data Params     | Success Response | Error | Response
 |:-------------:|:-----:|:-------------:|:-----|:---------:|:-------------:|
-| /v1/api/information?ip={queri_ip}  | <font color="#008800">GET</font> | |  | **200** | **400** **500**|
-| /v1/api/statistics | <font color="#DD0000">GET</font> | |  | **200** | **400** **500**|
+| /v1/api/information?ip={queri_ip}  | <font color="#008800">GET</font> | | | **200** | **400** **500**|
+| /v1/api/statistics | <font color="#DD0000">GET</font> | | | **200** | **400** **500**|
 
 ## Author
 * **Martin Diaz** - *Initial work* - [Hiessy](https://github.com/Hiessy)

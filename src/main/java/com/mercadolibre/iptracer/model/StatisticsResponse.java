@@ -2,16 +2,16 @@ package com.mercadolibre.iptracer.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class StatisticsResponse {
-    private String countryName;
-    private Integer distance;
-    private Integer invocations;
+    List<StatisticsInfo> statistics;
+    Integer average;
 
-    public StatisticsResponse(String countryName, Integer distance, Integer invocations) {
-        this.countryName = countryName;
-        this.distance = distance;
-        this.invocations = invocations;
+    public StatisticsResponse(List<StatisticsInfo> statistics, Integer average) {
+        this.statistics = statistics;
+        this.average = average;
     }
 
     public StatisticsResponse() {
