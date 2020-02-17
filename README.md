@@ -16,15 +16,15 @@ In order to build the project, the following programas will have to be installed
 [Docker 2.x](https://www.docker.com/)<br>
 
 ## Running
-With build with maven.
+Build with maven.
 ```
 c:\Users\hiessy\IdeaProjects\iptracer>mvn package
 ```
-With docker installed, build the image. Make sure have the prompt at the project base.
+With docker installed, build the image.
 ```
 c:\Users\hiessy\IdeaProjects\iptracer>docker build -f Dockerfile -t iptracer_img .
 ```
-then run it:
+Then run it
 ```
 c:\Users\hiessy\IdeaProjects\iptracer>docker run -p 8080:8080 iptracer_img
 ```
